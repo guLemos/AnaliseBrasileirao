@@ -32,6 +32,23 @@ def menuInicial():
         escolhas.remove(None)
     return escolhas
 
+def menuEscolhas(anos):
+    chamaFuncao = {1:mostraCampeao}
+    print('---------- ESCOLHA UMA OPÇÃO ----------')
+    print('1 - Classificação(s)')
+    print('2 - Campeão(s)')
+    print('3 - ------------------')
+    print('4 - ------------------')
+    print('5 - ------------------')
+    escolha = int(input('Escolha uma opção: '))
+    # chamaFuncao[escolha]()
+    if escolha == 1:
+        for i in range(len(anos)):
+            classificacaoGeral(anos[i])
+    if escolha == 2:
+        for i in range(len(anos)):
+            print(mostraCampeao(anos[i]))
+
 def obtemSite(ano):
     url = 'https://www.uol.com.br/esporte/futebol/campeonatos/brasileirao/'+str(ano)+'/jogos/'
     headers = {
@@ -41,10 +58,29 @@ def obtemSite(ano):
     response = urlopen(req)
     html = response.read()
     soup = BeautifulSoup(html, 'html.parser')
-    lista = soup.find('table', class_='pg-color4').find('tr')
-    return soup#lista
+    return soup
 
-def mostraCampeao(soup):
-    lista = soup.find('table', class_='pg-color4').find('tr')
-    lista = lista.findNext('tr').find('th').findNext('th').getText()
-    return lista
+def classificacaoGeral(ano):
+    soup = obtemSite(ano)
+    dados = soup.find('table', class_='pg-color4').find('tr').findNext('tr')
+    print('-'*29+str(ano)+'-'*28)
+    print('     {}            {}     {}     {}     {}     {}     {}     {}'.format('TIME', 'P', 'J', 'V', 'E', 'D', 'GP', 'GC'))
+    print('    ------          ---   ---   ---   ---   ---   ----   ----')
+
+    for i in range(20):
+        linha = [text for text in dados.stripped_strings]
+        print('{:<20}{:>3}{:>6}{:>6}{:>6}{:>6}{:>6}{:>7}'.format(linha[1], linha[2], linha[3], linha[4],linha[5],linha[6],linha[7],linha[8]))
+        print('-'*61)
+        dados = dados.findNext('tr')
+    print('')
+    print('')
+    
+
+def mostraCampeao(ano):
+    soup = obtemSite(ano)
+    campeao = soup.find('table', class_='pg-color4').find('tr').findNext('tr').find('th').findNext('th').getText()
+    return campeao
+
+def mostraZonaDeRebaixamento(ano):
+    soup = obtemSite(ano)
+    lista = soup.find
