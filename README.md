@@ -25,3 +25,4 @@ Primeira rodada:
 
 Onde parei:
     - 02/09/2024 13:26 - Início da opção em que mostra a classificação geral dos campeonatos;
+    - 02/09/2024 21:58 - Mostrar Z4/G4, ajeitar os campeões e os artilheiros. Ideia: utilizar intervalos de anos para mostrar os times com mais pontos/vitorias/gols...
